@@ -49,6 +49,7 @@ function App() {
 
     // Generate a sentence
     for (let i = 0; i < 5; i++) {
+      // console.log(markov.generate(options))
       result = result +"\n"+ markov.generate(options).string;
     }
     console.log(result);
