@@ -50,10 +50,6 @@ function App() {
   });
   const classes = useStyles();
 
-//   function sample(array) {
-//   return array[Math.floor ( Math.random() * array.length ) Math.floor ( Math.random() * array.length )]
-// }
-
   const onChangeInputHandler = (event) => {
     if (event.target.files[0]) {
       setFiles(event.target.files);
@@ -67,15 +63,14 @@ function App() {
       };
 
       reader.onload = function () {
-        //console.log(sampleSize(nGram(values.nGrams)(reader.result.split(/[ ]|[.]|[\r\n]+/g).filter(x => x !== '' && x !== ' ')).map((i) => sampleSize(i,values.nGrams-1).join(" ").trim())), );
         
-        let parts =  nGram(values.nGrams)(
+        let parts =  nGram(values.nGrams)((
           reader.result
             .split(/[,]|[.]|[\r\n]+/g)
-            .filter((x) => x !== "" && x !== " ")
+            .filter((x) => x !== "" && x !== " "))
         ).map((i) => i.join(" ").trim());
-
-        setData(sampleSize(parts, parts.length/values.nGrams));
+        
+        setData(sampleSize(parts, parts.length - (parts.length*values.nGrams/100)));
         
         setLoad(false);
         setBtn(true);
