@@ -1,4 +1,13 @@
-.App {
+.app {
   text-align: center;
   white-space: pre-wrap;
 }
+
+.fileInput .form-group{margin-top:2em;margin-bottom:1em;}
+.fileInput input[type=file]{outline:0;opacity:0;pointer-events:none;user-select:none}
+.fileInput .label{border:2px dashed grey;border-radius:5px;display:block;padding:1.2em;transition:border 300ms ease;cursor:pointer;}
+.fileInput .label i{display:block;font-size:42px;padding-bottom:16px}
+.fileInput .label i,.fileInput .label .title{color:grey;transition:200ms color; margin:auto; display:table;margin-top: 30px;}
+.fileInput .label:hover{border:2px solid #000}
+.fileInput .label:hover i,.fileInput .label:hover .title{color:#000}
+
