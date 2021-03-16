@@ -5,7 +5,7 @@ import nGram from "n-gram";
 import { Button, Container, TextField, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import sampleSize  from 'lodash.samplesize';
+import sampleSize from "lodash.samplesize";
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -63,15 +63,16 @@ function App() {
       };
 
       reader.onload = function () {
-        
-        let parts =  nGram(values.nGrams)((
+        let parts = nGram(values.nGrams)(
           reader.result
             .split(/[,]|[.]|[\r\n]+/g)
-            .filter((x) => x !== "" && x !== " "))
+            .filter((x) => x !== "" && x !== " ")
         ).map((i) => i.join(" ").trim());
-        
-        setData(sampleSize(parts, parts.length - (parts.length*values.nGrams/100)));
-        
+
+        setData(
+          sampleSize(parts, parts.length - (parts.length * values.nGrams) / 100)
+        );
+
         setLoad(false);
         setBtn(true);
       };
@@ -87,7 +88,7 @@ function App() {
     const markov = new Markov({ stateSize: values.stateSize });
     // Add data for the generator
     markov.addData(data);
-   
+
     setMarkov(markov);
   };
 
@@ -99,7 +100,7 @@ function App() {
         maxTries: 300, // Give up if I don't have a sentence after 20 tries (default is 10)
         // You'll often need to manually filter raw results to get something that fits your needs.
         filter: (result) => {
-          return result; // Filter options
+          return result
         },
       };
 
@@ -114,7 +115,7 @@ function App() {
   };
 
   const handleValueChange = (event, name) => {
-    setValues({ ...values, [name]:  Number(event.target.value) });
+    setValues({ ...values, [name]: Number(event.target.value) });
   };
 
   const renderTextField = (name, label) => {
@@ -129,6 +130,20 @@ function App() {
         label={label}
         variant="outlined"
       />
+    );
+  };
+
+  const renderButton = (text, func) => {
+    return (
+      <Button
+        className={classes.btn}
+        variant="contained"
+        color="secondary"
+        disabled={!btn}
+        onClick={func}
+      >
+        {text}
+      </Button>
     );
   };
 
@@ -155,25 +170,8 @@ function App() {
         {renderTextField("stateSize", "State size")}
         {renderTextField("nGrams", "N-grams")}
 
-        <Button
-          className={classes.btn}
-          variant="contained"
-          color="secondary"
-          disabled={!btn}
-          onClick={onUploadHandler}
-        >
-          {" "}
-          Upload
-        </Button>
-        <Button
-          className={classes.btn}
-          variant="contained"
-          color="secondary"
-          disabled={!btn}
-          onClick={generate}
-        >
-          Generate
-        </Button>
+        {renderButton("Upload", onUploadHandler)}
+        {renderButton("Generate", generate)}
 
         <Typography>{result}</Typography>
       </Container>
