@@ -5,6 +5,7 @@ import nGram from "n-gram";
 import { Button, Container, TextField, Typography } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
+import sampleSize  from 'lodash.samplesize';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [result, setResult] = useState("");
   const [markov, setMarkov] = useState(null);
   const [btn, setBtn] = useState(false);
@@ -44,10 +45,14 @@ function App() {
   const [load, setLoad] = useState(false);
   const [values, setValues] = useState({
     numberOfLines: 5,
-    stateSize: 3,
+    stateSize: 5,
     nGrams: 2,
   });
   const classes = useStyles();
+
+//   function sample(array) {
+//   return array[Math.floor ( Math.random() * array.length ) Math.floor ( Math.random() * array.length )]
+// }
 
   const onChangeInputHandler = (event) => {
     if (event.target.files[0]) {
@@ -62,14 +67,16 @@ function App() {
       };
 
       reader.onload = function () {
-        //console.log(nGram(2)(reader.result.split(/[ ]|[.]|[\r\n]+/g).filter(x => x !== '' && x !== ' ')).map(i => i.join(' ').trim()));
-        setData(
-          nGram(values.nGrams)(
-            reader.result
-              .split(/[.]|[\r\n]+/g)
-              .filter((x) => x !== "" && x !== " ")
-          ).map((i) => i.join(" ").trim())
-        );
+        //console.log(sampleSize(nGram(values.nGrams)(reader.result.split(/[ ]|[.]|[\r\n]+/g).filter(x => x !== '' && x !== ' ')).map((i) => sampleSize(i,values.nGrams-1).join(" ").trim())), );
+        
+        let parts =  nGram(values.nGrams)(
+          reader.result
+            .split(/[,]|[.]|[\r\n]+/g)
+            .filter((x) => x !== "" && x !== " ")
+        ).map((i) => i.join(" ").trim());
+
+        setData(sampleSize(parts, parts.length/values.nGrams));
+        
         setLoad(false);
         setBtn(true);
       };
@@ -81,16 +88,17 @@ function App() {
   };
 
   const onUploadHandler = () => {
-    debugger
     // Build the Markov generator
     const markov = new Markov({ stateSize: values.stateSize });
     // Add data for the generator
     markov.addData(data);
+   
     setMarkov(markov);
   };
 
   const generate = () => {
     let result = "";
+
     try {
       const options = {
         maxTries: 300, // Give up if I don't have a sentence after 20 tries (default is 10)
@@ -111,7 +119,7 @@ function App() {
   };
 
   const handleValueChange = (event, name) => {
-    setValues({ ...values, [name]: event.target.value });
+    setValues({ ...values, [name]:  Number(event.target.value) });
   };
 
   const renderTextField = (name, label) => {
