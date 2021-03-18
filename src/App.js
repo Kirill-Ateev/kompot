@@ -63,6 +63,7 @@ function App() {
       };
 
       reader.onload = function () {
+        //TODO: separate "tokenization" from file load
         let parts = nGram(values.nGrams)(
           reader.result
             .split(/[,]|[.]|[\r\n]+/g)
@@ -151,6 +152,7 @@ function App() {
     <>
       {load && <LinearProgress color="secondary" />}
       <Container className="app" maxWidth="sm">
+        {/* TODO: add on drag events */}
         <div className="fileInput">
           <div className="form-group">
             <label className="label">
