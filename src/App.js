@@ -101,7 +101,7 @@ function App() {
         maxTries: 300, // Give up if I don't have a sentence after 20 tries (default is 10)
         // You'll often need to manually filter raw results to get something that fits your needs.
         filter: (result) => {
-          return result
+          return result;
         },
       };
 
@@ -172,6 +172,7 @@ function App() {
         {renderTextField("stateSize", "State size")}
         {renderTextField("nGrams", "N-grams")}
 
+        {/* TODO: add poppers with hints */}
         {renderButton("Upload", onUploadHandler)}
         {renderButton("Generate", generate)}
 
