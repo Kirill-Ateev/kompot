@@ -168,11 +168,16 @@ function App() {
           </div>
         </div>
 
-        {renderTextField("numberOfLines", "Number of lines")}
+        <span data-tooltip="Number of lines in the generated text">
+          {renderTextField("numberOfLines", "Number of lines")}
+        </span>
+        <span data-tooltip="A parameter that adjusts the connectivity between the generated parts of the text">
         {renderTextField("stateSize", "State size")}
-        {renderTextField("nGrams", "N-grams")}
+        </span>
 
-        {/* TODO: add poppers with hints */}
+      {/* TODO: add poppers with hints */}
+        {renderTextField("nGrams", "N-grams")}
+  
         {renderButton("Upload", onUploadHandler)}
         {renderButton("Generate", generate)}
 
