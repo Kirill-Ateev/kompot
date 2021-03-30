@@ -177,8 +177,9 @@ function App() {
 
       {/* TODO: add poppers with hints */}
         {renderTextField("nGrams", "N-grams")}
-  
+        <span data-tooltip="Download the dataset in .txt format and click to train the algorithm">
         {renderButton("Upload", onUploadHandler)}
+        </span>
         {renderButton("Generate", generate)}
 
         <Typography>{result}</Typography>
