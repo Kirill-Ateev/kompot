@@ -63,17 +63,7 @@ function App() {
       };
 
       reader.onload = function () {
-        //TODO: separate "tokenization" from file load
-        let parts = nGram(values.nGrams)(
-          reader.result
-            .split(/[,]|[.]|[\r\n]+/g)
-            .filter((x) => x !== "" && x !== " ")
-        ).map((i) => i.join(" ").trim());
-
-        setData(
-          sampleSize(parts, parts.length - (parts.length * values.nGrams) / 100)
-        );
-
+        setData(reader.result);
         setLoad(false);
         setBtn(true);
       };
@@ -87,8 +77,16 @@ function App() {
   const onUploadHandler = () => {
     // Build the Markov generator
     const markov = new Markov({ stateSize: values.stateSize });
+
+    let parts = nGram(values.nGrams)(
+      data
+        .split(/[,]|[.]|[\r\n]+/g)
+        .filter((x) => x !== "" && x !== " ")
+    ).map((i) => i.join(" ").trim());
+
+   
     // Add data for the generator
-    markov.addData(data);
+    markov.addData(sampleSize(parts, parts.length - (parts.length * values.nGrams) / 100));
 
     setMarkov(markov);
   };
@@ -178,8 +176,8 @@ function App() {
       {/* TODO: add poppers with hints */}
         {renderTextField("nGrams", "N-grams")}
 
-        <div data-tooltip="Download the dataset in .txt format and click to train the algorithm">
-        {renderButton("Upload", onUploadHandler)}
+        <div data-tooltip="Tokenizing the loaded .txt dataset">
+        {renderButton("Tokenization", onUploadHandler)}
         </div>
         {renderButton("Generate", generate)}
 
