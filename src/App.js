@@ -78,6 +78,7 @@ function App() {
     // Build the Markov generator
     const markov = new Markov({ stateSize: values.stateSize });
 
+    // TODO: refactor tokenization with another Markov chains library 
     let parts = nGram(values.nGrams)(
       data
         .split(/[,]|[.]|[\r\n]+/g)
