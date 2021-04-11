@@ -78,16 +78,15 @@ function App() {
     // Build the Markov generator
     const markov = new Markov({ stateSize: values.stateSize });
 
-    // TODO: refactor tokenization with another Markov chains library 
+    // TODO: refactor tokenization with another Markov chains library
     let parts = nGram(values.nGrams)(
-      data
-        .split(/[,]|[.]|[\r\n]+/g)
-        .filter((x) => x !== "" && x !== " ")
+      data.split(/[,]|[.]|[\r\n]+/g).filter((x) => x !== "" && x !== " ")
     ).map((i) => i.join(" ").trim());
 
-   
     // Add data for the generator
-    markov.addData(sampleSize(parts, parts.length - (parts.length * values.nGrams) / 100));
+    markov.addData(
+      sampleSize(parts, parts.length - (parts.length * values.nGrams) / 100)
+    );
 
     setMarkov(markov);
   };
@@ -171,14 +170,14 @@ function App() {
           {renderTextField("numberOfLines", "Number of lines")}
         </span>
         <span data-tooltip="A parameter that adjusts the connectivity between the generated parts of the text">
-        {renderTextField("stateSize", "State size")}
+          {renderTextField("stateSize", "State size")}
         </span>
 
-      {/* TODO: add poppers with hints */}
+        {/* TODO: add poppers with hints */}
         {renderTextField("nGrams", "N-grams")}
 
         <div data-tooltip="Tokenizing the loaded .txt dataset">
-        {renderButton("Tokenization", onUploadHandler)}
+          {renderButton("Tokenization", onUploadHandler)}
         </div>
         {renderButton("Generate", generate)}
 
