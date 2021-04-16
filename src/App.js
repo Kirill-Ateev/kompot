@@ -172,9 +172,10 @@ function App() {
         <span data-tooltip="A parameter that adjusts the connectivity between the generated parts of the text">
           {renderTextField("stateSize", "State size")}
         </span>
-
-        {/* TODO: add poppers with hints */}
+       
+        <span data-tooltip="Split sentences by length N-grams">
         {renderTextField("nGrams", "N-grams")}
+        </span>
 
         <div data-tooltip="Tokenizing the loaded .txt dataset">
           {renderButton("Tokenization", onUploadHandler)}
