@@ -53,7 +53,7 @@ function App() {
   const onChangeInputHandler = (event) => {
     if (event.target.files[0]) {
       setFiles(event.target.files);
-
+      
       let reader = new FileReader();
 
       reader.readAsText(event.target.files[0]);
